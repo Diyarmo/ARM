@@ -1,4 +1,4 @@
-module Condition_Check
+module ConditionCheck
 (
     input [3:0] cond,
     input z, c, v, n, 
