@@ -27,16 +27,16 @@ module ID_Stage(
   wire status, mem_read, mem_write, wb_en, branch, status_update, cond_check, control_unit_mux_select;
   wire CU_mux_select;
 
-  assign cond = instruction[31:28];
-  assign mode = instruction[27:26];
-  assign imm = instruction[25];
-  assign opcode = instruction[24:21];
-  assign Signed_imm_24 = instruction[23:0];
-  assign status = instruction[20];
-  assign Rn = instruction[19:16];
-  assign Rd = instruction[15:12];
-  assign Shift_operand = instruction[11:0];
-  assign Rm = instruction[3:0];
+  assign cond = Instruction[31:28];
+  assign mode = Instruction[27:26];
+  assign imm = Instruction[25];
+  assign opcode = Instruction[24:21];
+  assign Signed_imm_24 = Instruction[23:0];
+  assign status = Instruction[20];
+  assign Rn = Instruction[19:16];
+  assign Rd = Instruction[15:12];
+  assign Shift_operand = Instruction[11:0];
+  assign Rm = Instruction[3:0];
 
   assign src1 = Rn;
   assign src2 = RF_src2;
