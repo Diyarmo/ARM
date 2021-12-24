@@ -1,6 +1,6 @@
 module ID_Module (
 	input clk, rst,
-    input [31:0] Instruction, 
+    input [31:0] Instruction, PC_IN,
     output WB_EN, MEM_R_EN, MEM_W_EN, B, S,
     output[3:0] EXE_CMD,
     output[31:0] PC,
@@ -24,6 +24,9 @@ module ID_Module (
     // TODO: complete Status Register
     wire[3:0] SR;
     assign SR = 4'b0;
+
+    wire flush;
+    assign flush = 1'b0;
 
 
     wire WB_EN_temp, MEM_R_EN_temp, MEM_W_EN_temp, B_temp, S_temp;
@@ -73,7 +76,7 @@ module ID_Module (
     .B_IN(B_temp), 
     .S_IN(S_temp),
     .EXE_CMD_IN(EXE_CMD_temp),
-    .PC_IN(PC_temp),
+    .PC_IN(PC_IN),
     .Val_Rn_IN(Val_Rn_temp), 
     .Val_Rm_IN(Val_Rm_temp),
     .imm_IN(imm_temp),

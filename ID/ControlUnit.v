@@ -9,45 +9,45 @@ module ControlUnit
 );
 
     always @(*) begin
-        {exe_cmd, mem_read, mem_write, wb_en, branch} = 0;
+        {exe_cmd, mem_read, mem_write, WB_Enable, branch} = 0;
         case(mode)
             2'b0: begin  // Arithmetic
                     case (opcode)
                         4'b1101: begin //MOV
                             exe_cmd = 4'b0001;
-                            wb_en = 1'b1;
+                            WB_Enable = 1'b1;
                         end
                         4'b1111: begin //MVN
                             exe_cmd = 4'b1001;
-                            wb_en = 1'b1;
+                            WB_Enable = 1'b1;
                         end
                         4'b0100: begin //ADD
                             exe_cmd = 4'b0010;
-                            wb_en = 1'b1;
+                            WB_Enable = 1'b1;
                         end
                         4'b0101: begin //ADC
                             exe_cmd = 4'b0011;
-                            wb_en = 1'b1;
+                            WB_Enable = 1'b1;
                         end
                         4'b0010: begin //SUB
                             exe_cmd = 4'b0100;
-                            wb_en = 1'b1;
+                            WB_Enable = 1'b1;
                         end
                         4'b0110: begin //SBC
                             exe_cmd = 4'b0101;
-                            wb_en = 1'b1;
+                            WB_Enable = 1'b1;
                         end
                         4'b0000: begin //AND
                             exe_cmd = 4'b0110;
-                            wb_en = 1'b1;
+                            WB_Enable = 1'b1;
                         end
                         4'b1100: begin //ORR
                             exe_cmd = 4'b0111;
-                            wb_en = 1'b1;
+                            WB_Enable = 1'b1;
                         end
                         4'b0001: begin //EOR
                             exe_cmd = 4'b1000;
-                            wb_en = 1'b1;
+                            WB_Enable = 1'b1;
                         end
                         4'b1010: begin //CMP
                             exe_cmd = 4'b0100;
@@ -64,7 +64,7 @@ module ControlUnit
             2'b01: begin  // Memory
                 exe_cmd = 4'b0010;
                 if (status) begin //LDR
-                    {mem_read, wb_en} = 2'b11;
+                    {mem_read, WB_Enable} = 2'b11;
                 end else begin //STR
                     mem_write = 1'b1;      
                 end
@@ -77,7 +77,7 @@ module ControlUnit
             
             default: begin
                 exe_cmd = 4'b0000;
-                {mem_read, mem_write, wb_en, branch} = 4'b0;
+                {mem_read, mem_write, WB_Enable, branch} = 4'b0;
             end
             
         endcase

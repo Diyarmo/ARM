@@ -70,11 +70,11 @@ module ID_Stage(
 
   assign CU_mux_select = hazard | (~cond_check);
 
-  Mux_2_1 #(9) CU_mux
+  MUX_2_1 #(9) CU_mux
   (
     .f_in({exe_cmd, mem_read, mem_write, wb_en, branch, status_update}),
     .s_in(9'b0),
-    .select(cond_check),
+    .select(~cond_check),
     .out({EXE_CMD, MEM_R_EN, MEM_W_EN, WB_EN, B, S})
   );
 
@@ -82,11 +82,11 @@ module ID_Stage(
 
 // ================{Register File}==================
 
-  Mux_2_1 #(4) RF_src2_mux
+  MUX_2_1 #(4) RF_src2_mux
   (
     .f_in(Rm),
     .s_in(Rd),
-    .select(mem_write),
+    .select(~mem_write),
     .out(RF_src2)
   );
 
