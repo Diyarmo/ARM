@@ -1,5 +1,3 @@
-`include "Defines.v"
-
 module RegisterFile (
 	input clk, rst, 
     input[3:0] src1, src2, Dest_wb,
