@@ -1,7 +1,12 @@
 module ID_Module (
 	input clk, rst,
     input [31:0] Instruction, PC_IN,
+    input[31:0] Result_WB,
+    input writeBackEn,
+    input[3:0] Dest_wb,
+    input[3:0] SR_IN,
     output WB_EN, MEM_R_EN, MEM_W_EN, B, S,
+    output[3:0] SR,
     output[3:0] EXE_CMD,
     output[31:0] PC,
     output[31:0] Val_Rn, Val_Rm,
@@ -11,19 +16,10 @@ module ID_Module (
     output[3:0] Dest
     );
 
-    // TODO: complete WB Stage
-    wire[31:0] Result_WB;
-    wire writeBackEn;
-    wire[3:0] Dest_wb;
-    assign {Result_WB, writeBackEn, Dest_wb} = 37'b0;
-
+    
     // TODO: complete Hazard detect module
     wire hazard;
     assign hazard = 1'b0;
-
-    // TODO: complete Status Register
-    wire[3:0] SR;
-    assign SR = 4'b0;
 
     wire flush;
     assign flush = 1'b0;
@@ -47,7 +43,7 @@ module ID_Module (
     .writeBackEn(writeBackEn),
     .Dest_wb(Dest_wb),
     .hazard(hazard),
-    .SR(SR),
+    .SR(SR_IN),
     // outputs
     .WB_EN(WB_EN_temp), 
     .MEM_R_EN(MEM_R_EN_temp), 
@@ -75,6 +71,7 @@ module ID_Module (
     .MEM_W_EN_IN(MEM_W_EN_temp), 
     .B_IN(B_temp), 
     .S_IN(S_temp),
+    .SR_IN(SR_IN),
     .EXE_CMD_IN(EXE_CMD_temp),
     .PC_IN(PC_IN),
     .Val_Rn_IN(Val_Rn_temp), 
@@ -89,6 +86,7 @@ module ID_Module (
     .MEM_W_EN(MEM_W_EN), 
     .B(B), 
     .S(S),
+    .SR(SR)
     .EXE_CMD(EXE_CMD),
     .PC(PC),
     .Val_Rn(Val_Rn), 
