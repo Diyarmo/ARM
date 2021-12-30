@@ -35,6 +35,7 @@ module ID_Stage(
   assign status = Instruction[20];
   assign Rn = Instruction[19:16];
   assign Rd = Instruction[15:12];
+  assign Dest = Instruction[15:12];
   assign Shift_operand = Instruction[11:0];
   assign Rm = Instruction[3:0];
 

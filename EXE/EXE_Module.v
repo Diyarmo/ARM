@@ -10,11 +10,14 @@ module EXE_Module (
     input[3:0] SR,
     input[3:0] Dest_IN,
 
-    output WB_EN, MEM_R_EN, MEM_W_EN
+    output WB_EN, MEM_R_EN, MEM_W_EN,
     output[31:0] ALU_result, Br_addr,
-    output[3:0] status, Dest
+    output[3:0] status, Dest,
+    output[31:0] Val_Rm_out
 
     );
+    wire flush;
+    assign flush = 1'b0;
 
 	wire [31:0] PC_temp, ALU_result_temp;
 
@@ -40,15 +43,18 @@ module EXE_Module (
     EXE_Stage_Reg exe_stage_reg(
         .clk(clk), 
         .rst(rst), 
+        .flush(flush),
         .WB_en_IN(WB_EN_IN), 
         .MEM_R_EN_IN(MEM_R_EN_IN), 
         .MEM_W_EN_IN(MEM_W_EN_IN), 
         .ALU_result_IN(ALU_result_temp), 
+        .ST_val_IN(Val_Rm),
         .Dest_IN(Dest_IN),
         .WB_en(WB_EN), 
         .MEM_R_EN(MEM_R_EN), 
         .MEM_W_EN(MEM_W_EN),
         .ALU_result(ALU_result), 
+        .ST_val(Val_Rm_out),
         .Dest(Dest)
     );
 

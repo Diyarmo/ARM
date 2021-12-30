@@ -2,7 +2,7 @@ module StatusRegister (
     input clk, rst,
     input S,
     input[3:0] SR_IN,
-    output reg SR
+    output reg[3:0] SR
 );
 
 	always@(negedge clk, posedge rst) begin

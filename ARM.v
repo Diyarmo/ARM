@@ -17,7 +17,7 @@ module ARM(input clk, rst);
     wire[23:0] Signed_imm_24;
     wire[3:0] Dest_ID, Dest_EXE, WB_Dest;
     wire[31:0] ALU_result, BranchAddr, WB_Value;
-    wire[3:0] SR, SR_EXE;
+    wire[3:0] SR, SR_ID, SR_EXE;
 
     IF_Module if_module(
         .clk(clk),
@@ -36,11 +36,12 @@ module ARM(input clk, rst);
         .Dest_wb(WB_Dest),
         .SR_IN(SR),
 
-        .WB_EN(MEM_W_EN_ID), 
+        .WB_EN(WB_EN_ID), 
         .MEM_R_EN(MEM_R_EN_ID), 
         .MEM_W_EN(MEM_W_EN_ID), 
         .B(B), 
         .S(S),
+        .SR(SR_ID),
         .EXE_CMD(EXE_CMD),
         .PC(PC_ID),
         .Val_Rn(Val_Rn), 
@@ -55,7 +56,7 @@ module ARM(input clk, rst);
     .clk(clk), 
     .rst(rst),
     .EXE_CMD(EXE_CMD),
-    .WB_EN_IN(MEM_W_EN_ID), 
+    .WB_EN_IN(WB_EN_ID), 
     .MEM_R_EN_IN(MEM_R_EN_ID), 
     .MEM_W_EN_IN(MEM_W_EN_ID), 
     .PC_IN(PC_ID),
@@ -64,7 +65,7 @@ module ARM(input clk, rst);
     .imm(imm),
     .Shift_operand(Shift_operand),
     .Signed_imm_24(Signed_imm_24),
-    .SR(SR),
+    .SR(SR_ID),
     .Dest_IN(Dest_ID),
 
     .WB_EN(WB_EN_EXE), 
@@ -79,8 +80,8 @@ module ARM(input clk, rst);
     StatusRegister status_register (
     .clk(clk), 
     .rst(rst),
-    .S(S)
-    .SR_IN(SR_EXE)
+    .S(S),
+    .SR_IN(SR_EXE),
     .SR(SR)
 );
     
@@ -95,9 +96,9 @@ module ARM(input clk, rst);
     WB_Module wb_module(
         .clk(clk),
         .rst(rst),
-        .WB_EN(PC_MEM),
-        .MEM_R_EN(PC_MEM),
-        .ALU_result(PC_WB),
+        .WB_EN(WB_EN_EXE),
+        .MEM_R_EN(MEM_R_EN_EXE),
+        .ALU_result(ALU_result),
         .Mem_result(32'bz),
         .Dest(Dest_EXE),
         .WB_Dest(WB_Dest),

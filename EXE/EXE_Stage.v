@@ -34,10 +34,10 @@ module EXE_Stage(
   .EXE_CMD(EXE_CMD),
   .C_in(SR[1]),
   .result(ALU_result),
-  .V(status[0]),
-  .C(status[1]),
-  .Z(status[2]), 
-  .N(status[3])
+  .N(status[0]),
+  .V(status[1]),
+  .C(status[2]), 
+  .Z(status[3])
   );
     
 

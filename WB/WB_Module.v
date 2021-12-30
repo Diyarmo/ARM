@@ -9,15 +9,14 @@ module WB_Module (
     output WB_WB_EN
     );
 
-	assign WB_WB_EN = WB;
+	assign WB_WB_EN = WB_EN;
     assign WB_Dest = Dest;
 
-    MUX_2_1 wb_mux(
+    MUX_2_1 #(32) wb_mux(
         .f_in(ALU_result),
         .s_in(Mem_result),
         .select(MEM_R_EN),
         .out(WB_Value)
-
-    )
+    );
 
 endmodule

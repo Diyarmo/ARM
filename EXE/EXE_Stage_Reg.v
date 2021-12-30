@@ -1,10 +1,10 @@
 module EXE_Stage_Reg(
-  input clk, rst, WB_en_IN, MEM_R_EN_IN, MEM_W_EN_IN, 
+  input clk, rst, flush, WB_en_IN, MEM_R_EN_IN, MEM_W_EN_IN, 
   input[31:0] ALU_result_IN, ST_val_IN,
-  input[31:0] Dest_IN,
-  output reg WB_en, MEM_R_EN, MEM_W_EN,
-  output reg[31:0] ALU_result, ST_val,
-  output reg[3:0] Dest
+  input[3:0] Dest_IN,
+  output WB_en, MEM_R_EN, MEM_W_EN,
+  output [31:0] ALU_result, ST_val,
+  output [3:0] Dest
   );
 
  Register #(1) WB_en_reg(.clk(clk), .rst(rst), .freeze(1'b0), .flush(flush), 

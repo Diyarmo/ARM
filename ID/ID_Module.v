@@ -86,7 +86,7 @@ module ID_Module (
     .MEM_W_EN(MEM_W_EN), 
     .B(B), 
     .S(S),
-    .SR(SR)
+    .SR(SR),
     .EXE_CMD(EXE_CMD),
     .PC(PC),
     .Val_Rn(Val_Rn), 

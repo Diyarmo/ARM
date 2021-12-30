@@ -2,13 +2,13 @@ module ALU(
   input[31:0] in1, in2,
   input[3:0] EXE_CMD,
   input C_in,
-  output result,
+  output reg[31:0] result,
   output reg C, V,
   output Z, N
   );
 
-  assign Z = &{~{ALU_Res}};
-  assign N = ALU_Res[31];
+  assign Z = &{~{result}};
+  assign N = result[31];
   
   
   always@(*) begin
