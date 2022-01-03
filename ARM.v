@@ -1,11 +1,6 @@
 module ARM(input clk, rst);
 
-    wire [31:0] 
-    PC_IF, Instruction,
-    PC_ID,  
-    PC_EXE, 
-    PC_MEM, 
-    PC_WB;
+    wire [31:0] PC_IF, Instruction, PC_ID;
     wire Branch_taken, S;
     wire WB_EN_ID, MEM_R_EN_ID, MEM_W_EN_ID;
     wire WB_EN_EXE, MEM_R_EN_EXE, MEM_W_EN_EXE;
@@ -35,7 +30,7 @@ module ARM(input clk, rst);
     ID_Module id_module(
         .clk(clk),
         .rst(rst),
-        .flush(flush),
+        .flush(Branch_taken),
         .hazard(hazard_detected),
         .Instruction(Instruction),
         .PC_IN(PC_IF),
@@ -92,13 +87,13 @@ module ARM(input clk, rst);
     MEM_Module mem_module(
         .clk(clk),
         .rst(rst),
-        .flush(flush),
    	    .MEM_W_EN_IN(MEM_W_EN_EXE), 
         .MEM_R_EN_IN(MEM_R_EN_EXE), 
         .WB_EN_IN(WB_EN_EXE),
         .ALU_result_IN(ALU_result_EXE), 
         .Val_Rm(Val_Rm_EXE),
         .Dest_IN(Dest_EXE),
+        
         .WB_EN(WB_EN_MEM), 
         .MEM_R_EN(MEM_R_EN_MEM),
         .ALU_result(ALU_result_MEM), 

@@ -13,7 +13,7 @@ module RegisterFile (
 
     always @(negedge clk, posedge rst) begin
 		if (rst) begin
-			for(i=0; i < 14; i=i+1)
+			for(i=0; i < 15; i=i+1)
 				data[i] <= i;
         end
         else if (writeBackEn) data[Dest_wb] = Result_WB;

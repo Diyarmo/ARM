@@ -1,5 +1,5 @@
 module Hazard_Detection_Unit(
-    input[4:0] src1, src2, EXE_Dest, MEM_Dest,
+    input[3:0] src1, src2, EXE_Dest, MEM_Dest,
     input EXE_WB_EN, MEM_WB_EN, has_two_src,
     output hazard_detected
 );

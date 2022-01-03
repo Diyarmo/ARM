@@ -62,6 +62,7 @@ module ID_Stage(
     .mode(mode),
     .opcode(opcode),
     .status(status),
+    
     .exe_cmd(exe_cmd),
     .mem_read(mem_read), 
     .mem_write(mem_write), 
