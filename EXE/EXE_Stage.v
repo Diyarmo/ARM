@@ -32,7 +32,7 @@ module EXE_Stage(
   .in1(Val_Rn), 
   .in2(alu_val2),
   .EXE_CMD(EXE_CMD),
-  .C_in(SR[1]),
+  .C_in(SR[2]),
   .result(ALU_result),
   .N(status[0]),
   .V(status[1]),

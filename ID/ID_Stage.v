@@ -11,7 +11,7 @@ module ID_Stage(
   //from Status Register
   input[3:0] SR,
   // t0 next stage
-  output WB_EN, MEM_R_EN, MEM_W_EN, B, S,
+  output WB_EN, MEM_R_EN, MEM_W_EN, B, S, Ignore_Hazard,
   output[3:0] EXE_CMD,
   output[31:0] Val_Rn, Val_Rm,
   output imm,
@@ -25,7 +25,8 @@ module ID_Stage(
 
   wire[1:0] mode;
   wire[3:0] opcode, exe_cmd, cond, Rn, Rm, Rd, RF_src2;
-  wire status, mem_read, mem_write, wb_en, branch, status_update, cond_check, control_unit_mux_select;
+  wire status, mem_read, mem_write, wb_en, branch, status_update, 
+        cond_check;
   wire CU_mux_select;
 
   assign cond = Instruction[31:28];
@@ -62,13 +63,14 @@ module ID_Stage(
     .mode(mode),
     .opcode(opcode),
     .status(status),
-    
+
     .exe_cmd(exe_cmd),
     .mem_read(mem_read), 
     .mem_write(mem_write), 
     .WB_Enable(wb_en), 
     .branch(branch),
-    .status_update(status_update)
+    .status_update(status_update),
+    .ignore_hazard(Ignore_Hazard)
 );
 
   assign CU_mux_select = hazard | (~cond_check);
@@ -77,7 +79,7 @@ module ID_Stage(
   (
     .f_in({exe_cmd, mem_read, mem_write, wb_en, branch, status_update}),
     .s_in(9'b0),
-    .select(~CU_mux_select),
+    .select(CU_mux_select),
     .out({EXE_CMD, MEM_R_EN, MEM_W_EN, WB_EN, B, S})
   );
 
@@ -89,7 +91,7 @@ module ID_Stage(
   (
     .f_in(Rm),
     .s_in(Rd),
-    .select(~mem_write),
+    .select(imm | mem_write), // for ADDS
     .out(RF_src2)
   );
 

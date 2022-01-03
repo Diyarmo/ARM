@@ -1,10 +1,10 @@
 module MEM_Module (
 	input clk, rst, MEM_W_EN_IN, 
     MEM_R_EN_IN, WB_EN_IN,
-    input[31:0] ALU_result_IN, Val_Rm,
-    input[3:0] Dest_IN,
+    input[31:0] ALU_result_IN, Val_Rm, PC_IN,
+    input[3:0] Dest_IN, 
     output WB_EN, MEM_R_EN,
-    output[31:0] ALU_result, MEM_read_value,
+    output[31:0] ALU_result, MEM_read_value, PC,
     output[3:0] Dest
     );
 
@@ -32,12 +32,14 @@ module MEM_Module (
         .ALU_result_IN(ALU_result_IN), 
         .MEM_read_value_IN(MEM_result_temp),
         .Dest_IN(Dest_IN),
+        .PC_IN(PC_IN),
 
         .WB_EN(WB_EN), 
         .MEM_R_EN(MEM_R_EN),
         .ALU_result(ALU_result), 
         .MEM_read_value(MEM_read_value),
-        .Dest(Dest)
+        .Dest(Dest),
+        .PC(PC)
     );
 
 endmodule

@@ -1,6 +1,6 @@
 module ARM(input clk, rst);
 
-    wire [31:0] PC_IF, Instruction, PC_ID;
+    wire [31:0] PC_IF, Instruction, PC_ID, PC_EXE, PC_MEM;
     wire Branch_taken, S;
     wire WB_EN_ID, MEM_R_EN_ID, MEM_W_EN_ID;
     wire WB_EN_EXE, MEM_R_EN_EXE, MEM_W_EN_EXE;
@@ -14,7 +14,7 @@ module ARM(input clk, rst);
     wire[3:0] Dest_ID, Dest_EXE, Dest_MEM, WB_Dest, reg_file_src_1_out, reg_file_src_2_out;
     wire[31:0] ALU_result_EXE, ALU_result_MEM, BranchAddr, WB_Value, MEM_read_value;
     wire[3:0] SR, SR_ID, SR_EXE;
-    wire has_two_src, hazard_detected;
+    wire has_two_src, hazard_detected, Ignore_Hazard;
 
     IF_Module if_module(
         .clk(clk),
@@ -55,7 +55,8 @@ module ARM(input clk, rst);
         .Dest(Dest_ID),
         .reg_file_src_1_out(reg_file_src_1_out),
         .reg_file_src_2_out(reg_file_src_2_out),
-        .has_two_src(has_two_src)
+        .has_two_src(has_two_src),
+        .Ignore_Hazard(Ignore_Hazard)
     );
 
     EXE_Module exe_module(
@@ -74,6 +75,7 @@ module ARM(input clk, rst);
         .SR(SR_ID),
         .Dest_IN(Dest_ID),
 
+        .PC(PC_EXE),
         .WB_EN(WB_EN_EXE), 
         .MEM_R_EN(MEM_R_EN_EXE), 
         .MEM_W_EN(MEM_W_EN_EXE),
@@ -87,13 +89,15 @@ module ARM(input clk, rst);
     MEM_Module mem_module(
         .clk(clk),
         .rst(rst),
+        .PC_IN(PC_EXE),        
    	    .MEM_W_EN_IN(MEM_W_EN_EXE), 
         .MEM_R_EN_IN(MEM_R_EN_EXE), 
         .WB_EN_IN(WB_EN_EXE),
         .ALU_result_IN(ALU_result_EXE), 
         .Val_Rm(Val_Rm_EXE),
         .Dest_IN(Dest_EXE),
-        
+
+        .PC(PC_MEM),
         .WB_EN(WB_EN_MEM), 
         .MEM_R_EN(MEM_R_EN_MEM),
         .ALU_result(ALU_result_MEM), 
@@ -129,6 +133,7 @@ module ARM(input clk, rst);
     .EXE_WB_EN(WB_EN_ID), 
     .MEM_WB_EN(WB_EN_EXE), 
     .has_two_src(has_two_src),
+    .Ignore_Hazard(Ignore_Hazard),
     .hazard_detected(hazard_detected)
 );
 

@@ -9,7 +9,7 @@ module IF_Stage_Reg(
       .freeze(freeze),
       .clk(clk),
       .rst(rst), 
-      .flush(1'b0),
+      .flush(flush),
       .r_out(PC)
   );
 
@@ -18,7 +18,7 @@ module IF_Stage_Reg(
       .freeze(freeze),
       .clk(clk),
       .rst(rst), 
-      .flush(1'b0),
+      .flush(flush),
       .r_out(Instruction)
   );
 

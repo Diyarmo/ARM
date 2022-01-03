@@ -14,7 +14,7 @@ module ID_Module (
     output[11:0] Shift_operand,
     output[23:0] Signed_imm_24,
     output[3:0] Dest, reg_file_src_1_out, reg_file_src_2_out,
-    output has_two_src
+    output has_two_src, Ignore_Hazard
     );
 
     
@@ -55,6 +55,7 @@ module ID_Module (
     .src1(src1_temp), 
     .src2(src2_temp),
     .Two_src(has_two_src),
+    .Ignore_Hazard(Ignore_Hazard),
     .reg_file_src_1_out(reg_file_src_1_out),
     .reg_file_src_2_out(reg_file_src_2_out)
     );

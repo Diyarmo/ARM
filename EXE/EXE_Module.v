@@ -13,7 +13,7 @@ module EXE_Module (
     output WB_EN, MEM_R_EN, MEM_W_EN,
     output[31:0] ALU_result, Br_addr,
     output[3:0] status, Dest,
-    output[31:0] Val_Rm_out
+    output[31:0] Val_Rm_out, PC
 
     );
     wire flush;
@@ -50,12 +50,15 @@ module EXE_Module (
         .ALU_result_IN(ALU_result_temp), 
         .ST_val_IN(Val_Rm),
         .Dest_IN(Dest_IN),
+        .PC_IN(PC_IN),
+
         .WB_en(WB_EN), 
         .MEM_R_EN(MEM_R_EN), 
         .MEM_W_EN(MEM_W_EN),
         .ALU_result(ALU_result), 
         .ST_val(Val_Rm_out),
-        .Dest(Dest)
+        .Dest(Dest),
+        .PC(PC)
     );
 
 endmodule

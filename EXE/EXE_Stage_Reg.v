@@ -1,9 +1,9 @@
 module EXE_Stage_Reg(
   input clk, rst, flush, WB_en_IN, MEM_R_EN_IN, MEM_W_EN_IN, 
-  input[31:0] ALU_result_IN, ST_val_IN,
+  input[31:0] ALU_result_IN, ST_val_IN, PC_IN,
   input[3:0] Dest_IN,
   output WB_en, MEM_R_EN, MEM_W_EN,
-  output [31:0] ALU_result, ST_val,
+  output [31:0] ALU_result, ST_val, PC,
   output [3:0] Dest
   );
 
@@ -19,6 +19,8 @@ module EXE_Stage_Reg(
                           .r_in(ST_val_IN), .r_out(ST_val));
  Register #(4) Dest_reg(.clk(clk), .rst(rst), .freeze(1'b0), .flush(flush), 
                           .r_in(Dest_IN), .r_out(Dest));
-
+ Register #(32) PC_reg(.clk(clk), .rst(rst), .freeze(1'b0), .flush(flush), 
+                          .r_in(PC_IN), .r_out(PC));
+ 
     
 endmodule
