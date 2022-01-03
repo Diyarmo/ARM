@@ -1,12 +1,9 @@
 module IF_Module (
-	input clk, rst, flush, Branch_taken,
+	input clk, rst, flush, freeze, Branch_taken,
     wire [31:0] BranchAddr, PC, Instruction
 );
 	wire [31:0] PC_temp;
 	wire [31:0] Instruction_temp;
-    wire freeze;
-
-    assign freeze = 0;
 
 
     IF_Stage if_stage(

@@ -1,5 +1,5 @@
 module ID_Module (
-	input clk, rst, flush,
+	input clk, rst, flush, hazard,
     input [31:0] Instruction, PC_IN,
     input[31:0] Result_WB,
     input writeBackEn,
@@ -13,13 +13,12 @@ module ID_Module (
     output imm,
     output[11:0] Shift_operand,
     output[23:0] Signed_imm_24,
-    output[3:0] Dest
+    output[3:0] Dest, reg_file_src_1_out, reg_file_src_2_out,
+    output has_two_src
     );
 
     
     // TODO: complete Hazard detect module
-    wire hazard;
-    assign hazard = 1'b0;
 
 
     wire WB_EN_temp, MEM_R_EN_temp, MEM_W_EN_temp, B_temp, S_temp;
@@ -30,7 +29,6 @@ module ID_Module (
     wire[23:0] Signed_imm_24_temp;
     wire[3:0] Dest_temp;
     wire[3:0] src1_temp, src2_temp;
-    wire Two_src_temp;
 
     ID_Stage id_stage(
     .clk(clk), 
@@ -56,7 +54,9 @@ module ID_Module (
     .Dest(Dest_temp),
     .src1(src1_temp), 
     .src2(src2_temp),
-    .Two_src(Two_src_temp)
+    .Two_src(has_two_src),
+    .reg_file_src_1_out(reg_file_src_1_out),
+    .reg_file_src_2_out(reg_file_src_2_out)
     );
 
     ID_Stage_Reg id_stage_reg(

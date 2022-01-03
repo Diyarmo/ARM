@@ -19,7 +19,8 @@ module ID_Stage(
   output[23:0] Signed_imm_24,
   output[3:0] Dest,
   output[3:0] src1, src2,
-  output Two_src
+  output Two_src,
+  output[3:0] reg_file_src_1_out, reg_file_src_2_out 
 );
 
   wire[1:0] mode;
@@ -75,7 +76,7 @@ module ID_Stage(
   (
     .f_in({exe_cmd, mem_read, mem_write, wb_en, branch, status_update}),
     .s_in(9'b0),
-    .select(~cond_check),
+    .select(~CU_mux_select),
     .out({EXE_CMD, MEM_R_EN, MEM_W_EN, WB_EN, B, S})
   );
 
@@ -90,6 +91,9 @@ module ID_Stage(
     .select(~mem_write),
     .out(RF_src2)
   );
+
+  assign reg_file_src_1_out = Rn;
+  assign reg_file_src_2_out = RF_src2;
 
   RegisterFile registerFile(      
     .clk(clk), 

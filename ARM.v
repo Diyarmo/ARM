@@ -16,14 +16,16 @@ module ARM(input clk, rst);
     wire imm;
     wire[11:0] Shift_operand;
     wire[23:0] Signed_imm_24;
-    wire[3:0] Dest_ID, Dest_EXE, Dest_MEM, WB_Dest;
+    wire[3:0] Dest_ID, Dest_EXE, Dest_MEM, WB_Dest, reg_file_src_1_out, reg_file_src_2_out;
     wire[31:0] ALU_result_EXE, ALU_result_MEM, BranchAddr, WB_Value, MEM_read_value;
     wire[3:0] SR, SR_ID, SR_EXE;
+    wire has_two_src, hazard_detected;
 
     IF_Module if_module(
         .clk(clk),
         .rst(rst),
         .flush(Branch_taken),
+        .freeze(hazard_detected),
         .Branch_taken(Branch_taken),
         .BranchAddr(BranchAddr),
         .PC(PC_IF),
@@ -34,6 +36,7 @@ module ARM(input clk, rst);
         .clk(clk),
         .rst(rst),
         .flush(flush),
+        .hazard(hazard_detected),
         .Instruction(Instruction),
         .PC_IN(PC_IF),
         .Result_WB(WB_Value),
@@ -54,7 +57,10 @@ module ARM(input clk, rst);
         .imm(imm),
         .Shift_operand(Shift_operand),
         .Signed_imm_24(Signed_imm_24),
-        .Dest(Dest_ID)
+        .Dest(Dest_ID),
+        .reg_file_src_1_out(reg_file_src_1_out),
+        .reg_file_src_2_out(reg_file_src_2_out),
+        .has_two_src(has_two_src)
     );
 
     EXE_Module exe_module(
@@ -120,5 +126,15 @@ module ARM(input clk, rst);
         .SR_IN(SR_EXE),
         .SR(SR)
     );    
+    Hazard_Detection_Unit hazard_detection_unit(
+    .src1(reg_file_src_1_out), 
+    .src2(reg_file_src_2_out), 
+    .EXE_Dest(Dest_ID), 
+    .MEM_Dest(Dest_EXE),
+    .EXE_WB_EN(WB_EN_ID), 
+    .MEM_WB_EN(WB_EN_EXE), 
+    .has_two_src(has_two_src),
+    .hazard_detected(hazard_detected)
+);
 
 endmodule

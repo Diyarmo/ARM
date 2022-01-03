@@ -4,10 +4,22 @@ module IF_Stage_Reg(
   output reg[31:0] PC, Instruction
 );
 
-  always @(posedge clk, posedge rst) begin
-    if (~rst) begin
-      PC <= PC_in;
-      Instruction <= Instruction_in;
-    end
-  end
+  Register #(32) PC_reg(
+      .r_in(PC_in),
+      .freeze(freeze),
+      .clk(clk),
+      .rst(rst), 
+      .flush(1'b0),
+      .r_out(PC)
+  );
+
+  Register #(32) Instruction_reg(
+      .r_in(Instruction_in),
+      .freeze(freeze),
+      .clk(clk),
+      .rst(rst), 
+      .flush(1'b0),
+      .r_out(Instruction)
+  );
+
 endmodule
