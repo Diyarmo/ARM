@@ -1,5 +1,5 @@
 module ID_Module (
-	input clk, rst,
+	input clk, rst, flush,
     input [31:0] Instruction, PC_IN,
     input[31:0] Result_WB,
     input writeBackEn,
@@ -20,9 +20,6 @@ module ID_Module (
     // TODO: complete Hazard detect module
     wire hazard;
     assign hazard = 1'b0;
-
-    wire flush;
-    assign flush = 1'b0;
 
 
     wire WB_EN_temp, MEM_R_EN_temp, MEM_W_EN_temp, B_temp, S_temp;

@@ -23,6 +23,9 @@ module ARM(input clk, rst);
     IF_Module if_module(
         .clk(clk),
         .rst(rst),
+        .flush(Branch_taken),
+        .Branch_taken(Branch_taken),
+        .BranchAddr(BranchAddr),
         .PC(PC_IF),
         .Instruction(Instruction)
     );
@@ -30,6 +33,7 @@ module ARM(input clk, rst);
     ID_Module id_module(
         .clk(clk),
         .rst(rst),
+        .flush(flush),
         .Instruction(Instruction),
         .PC_IN(PC_IF),
         .Result_WB(WB_Value),
@@ -82,6 +86,7 @@ module ARM(input clk, rst);
     MEM_Module mem_module(
         .clk(clk),
         .rst(rst),
+        .flush(flush),
    	    .MEM_W_EN_IN(MEM_W_EN_EXE), 
         .MEM_R_EN_IN(MEM_R_EN_EXE), 
         .WB_EN_IN(WB_EN_EXE),
