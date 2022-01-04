@@ -1,7 +1,7 @@
 module tb();
 
 reg clk = 1'b0, rst = 1'b0;
-reg forwarding_en = 1'b0;
+reg forwarding_en = 1'b1;
 
 initial repeat(1000) #50 clk = ~clk;
 

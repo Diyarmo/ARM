@@ -11,7 +11,7 @@ module ARM(input clk, rst, forwarding_en);
     wire imm;
     wire[11:0] Shift_operand;
     wire[23:0] Signed_imm_24;
-    wire[3:0] Dest_ID, Dest_EXE, Dest_MEM, WB_Dest, reg_file_src_1_out, reg_file_src_2_out;
+    wire[3:0] Dest_ID, Dest_EXE, Dest_MEM, WB_Dest, reg_file_src_1_out, reg_file_src_2_out, reg_file_src_1_EXE, reg_file_src_2_EXE;
     wire[31:0] ALU_result_EXE, ALU_result_MEM, BranchAddr, WB_Value, MEM_read_value;
     wire[3:0] SR, SR_ID, SR_EXE;
     wire has_two_src, hazard_detected, Ignore_Hazard;
@@ -75,7 +75,9 @@ module ARM(input clk, rst, forwarding_en);
         .Signed_imm_24(Signed_imm_24),
         .SR(SR_ID),
         .Dest_IN(Dest_ID),
-
+        .reg_file_src_1_IN(reg_file_src_1_out),
+        .reg_file_src_2_IN(reg_file_src_2_out),
+        
         .fu_sel_src1(fu_sel_src1),
         .fu_sel_src2(fu_sel_src2),
         .ALU_res(ALU_result_EXE),
@@ -89,7 +91,9 @@ module ARM(input clk, rst, forwarding_en);
         .Br_addr(BranchAddr),
         .Val_Rm_out(Val_Rm_EXE),
         .status(SR_EXE), 
-        .Dest(Dest_EXE)
+        .Dest(Dest_EXE),
+        .reg_file_src_1(reg_file_src_1_EXE),
+        .reg_file_src_2(reg_file_src_2_EXE)
     );
     
     MEM_Module mem_module(
@@ -147,8 +151,8 @@ module ARM(input clk, rst, forwarding_en);
     );
 
     Forwarding_Unit forwarding_unit(
-    .src1(reg_file_src_1_out), 
-    .src2(reg_file_src_2_out),
+    .src1(reg_file_src_1_EXE), 
+    .src2(reg_file_src_2_EXE),
     .wb_dest(Dest_MEM), 
     .mem_dest(Dest_EXE),
     .wb_wb_en(WB_EN_MEM), 

@@ -8,14 +8,14 @@ module EXE_Module (
     input[11:0] Shift_operand,
     input[23:0] Signed_imm_24,
     input[3:0] SR,
-    input[3:0] Dest_IN,
+    input[3:0] Dest_IN, reg_file_src_1_IN, reg_file_src_2_IN,
 
     input[1:0] fu_sel_src1, fu_sel_src2,
     input[31:0] ALU_res, WB_Value, 
 
     output WB_EN, MEM_R_EN, MEM_W_EN,
     output[31:0] ALU_result, Br_addr,
-    output[3:0] status, Dest,
+    output[3:0] status, Dest, reg_file_src_1, reg_file_src_2,
     output[31:0] Val_Rm_out, PC
 
     );
@@ -60,6 +60,8 @@ module EXE_Module (
         .ST_val_IN(alu_src2_temp),
         .Dest_IN(Dest_IN),
         .PC_IN(PC_IN),
+        .reg_file_src_1_IN(reg_file_src_1_IN),
+        .reg_file_src_2_IN(reg_file_src_2_IN),
 
         .WB_en(WB_EN), 
         .MEM_R_EN(MEM_R_EN), 
@@ -67,6 +69,8 @@ module EXE_Module (
         .ALU_result(ALU_result), 
         .ST_val(Val_Rm_out),
         .Dest(Dest),
+        .reg_file_src_1(reg_file_src_1),
+        .reg_file_src_2(reg_file_src_2),
         .PC(PC)
     );
 
