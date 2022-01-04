@@ -10,6 +10,9 @@ module EXE_Module (
     input[3:0] SR,
     input[3:0] Dest_IN,
 
+    input[1:0] fu_sel_src1, fu_sel_src2,
+    input[31:0] ALU_res, WB_Value, 
+
     output WB_EN, MEM_R_EN, MEM_W_EN,
     output[31:0] ALU_result, Br_addr,
     output[3:0] status, Dest,
@@ -19,7 +22,7 @@ module EXE_Module (
     wire flush;
     assign flush = 1'b0;
 
-	wire [31:0] PC_temp, ALU_result_temp;
+	wire [31:0] PC_temp, ALU_result_temp, alu_src2_temp;
 
     EXE_Stage exe_stage(
         .clk(clk),
@@ -35,8 +38,14 @@ module EXE_Module (
         .Signed_imm_24(Signed_imm_24),
         .SR(SR),
 
+        .fu_sel_src1(fu_sel_src1),
+        .fu_sel_src2(fu_sel_src2),
+        .ALU_res(ALU_res),
+        .WB_Value(WB_Value),
+
         .ALU_result(ALU_result_temp), 
         .Br_addr(Br_addr),
+        .Val_Rm_out(alu_src2_temp),
         .status(status)
     );
 
@@ -48,7 +57,7 @@ module EXE_Module (
         .MEM_R_EN_IN(MEM_R_EN_IN), 
         .MEM_W_EN_IN(MEM_W_EN_IN), 
         .ALU_result_IN(ALU_result_temp), 
-        .ST_val_IN(Val_Rm),
+        .ST_val_IN(alu_src2_temp),
         .Dest_IN(Dest_IN),
         .PC_IN(PC_IN),
 

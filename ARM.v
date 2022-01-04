@@ -1,4 +1,4 @@
-module ARM(input clk, rst);
+module ARM(input clk, rst, forwarding_en);
 
     wire [31:0] PC_IF, Instruction, PC_ID, PC_EXE, PC_MEM;
     wire Branch_taken, S;
@@ -15,6 +15,7 @@ module ARM(input clk, rst);
     wire[31:0] ALU_result_EXE, ALU_result_MEM, BranchAddr, WB_Value, MEM_read_value;
     wire[3:0] SR, SR_ID, SR_EXE;
     wire has_two_src, hazard_detected, Ignore_Hazard;
+    wire[1:0] fu_sel_src1, fu_sel_src2;
 
     IF_Module if_module(
         .clk(clk),
@@ -75,6 +76,11 @@ module ARM(input clk, rst);
         .SR(SR_ID),
         .Dest_IN(Dest_ID),
 
+        .fu_sel_src1(fu_sel_src1),
+        .fu_sel_src2(fu_sel_src2),
+        .ALU_res(ALU_result_EXE),
+        .WB_Value(WB_Value),
+
         .PC(PC_EXE),
         .WB_EN(WB_EN_EXE), 
         .MEM_R_EN(MEM_R_EN_EXE), 
@@ -125,6 +131,7 @@ module ARM(input clk, rst);
         .SR_IN(SR_EXE),
         .SR(SR)
     );    
+
     Hazard_Detection_Unit hazard_detection_unit(
     .src1(reg_file_src_1_out), 
     .src2(reg_file_src_2_out), 
@@ -134,7 +141,23 @@ module ARM(input clk, rst);
     .MEM_WB_EN(WB_EN_EXE), 
     .has_two_src(has_two_src),
     .Ignore_Hazard(Ignore_Hazard),
-    .hazard_detected(hazard_detected)
+    .forwarding_en(forwarding_en),
+    .hazard_detected(hazard_detected),
+    .MEM_R_EN_EXE(MEM_R_EN_EXE)
+    );
+
+    Forwarding_Unit forwarding_unit(
+    .src1(reg_file_src_1_out), 
+    .src2(reg_file_src_2_out),
+    .wb_dest(Dest_MEM), 
+    .mem_dest(Dest_EXE),
+    .wb_wb_en(WB_EN_MEM), 
+    .mem_wb_en(WB_EN_EXE),
+    .forwarding_en(forwarding_en),
+    .Ignore_Hazard(Ignore_Hazard),
+    .sel_src1(fu_sel_src1), 
+    .sel_src2(fu_sel_src2)
 );
+
 
 endmodule
