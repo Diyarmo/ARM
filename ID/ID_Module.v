@@ -1,5 +1,5 @@
 module ID_Module (
-	input clk, rst, flush, hazard,
+	input clk, rst, flush, hazard, freeze,
     input [31:0] Instruction, PC_IN,
     input[31:0] Result_WB,
     input writeBackEn,
@@ -64,6 +64,7 @@ module ID_Module (
     .clk(clk), 
     .rst(rst), 
     .flush(flush),
+    .freeze(freeze),
     .WB_EN_IN(WB_EN_temp), 
     .MEM_R_EN_IN(MEM_R_EN_temp), 
     .MEM_W_EN_IN(MEM_W_EN_temp), 

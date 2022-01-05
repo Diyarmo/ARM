@@ -1,5 +1,5 @@
 module EXE_Module (
-    input clk, rst,
+    input clk, rst, freeze,
     input[3:0] EXE_CMD,
     input WB_EN_IN, MEM_R_EN_IN, MEM_W_EN_IN, 
     input [31:0] PC_IN,
@@ -53,6 +53,7 @@ module EXE_Module (
         .clk(clk), 
         .rst(rst), 
         .flush(flush),
+        .freeze(freeze),
         .WB_en_IN(WB_EN_IN), 
         .MEM_R_EN_IN(MEM_R_EN_IN), 
         .MEM_W_EN_IN(MEM_W_EN_IN), 

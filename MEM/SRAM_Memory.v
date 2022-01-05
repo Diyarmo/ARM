@@ -1,4 +1,4 @@
-module Memory(
+module SRAM_Memory(
     input clk,
     input rst,
     input SRAM_WE_N,
