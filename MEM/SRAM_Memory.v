@@ -9,6 +9,12 @@ module SRAM_Memory(
 
     assign #30 SRAM_DQ = SRAM_WE_N ? data[SRAM_ADDR]: 32'bz;
 
+    integer j;
+    initial begin
+      for(j = 0; j < 512; j = j + 1)
+      data[j] = 0;
+    end
+
     always @(posedge clk) begin
         if(~SRAM_WE_N) begin
             data[SRAM_ADDR] = SRAM_DQ;
