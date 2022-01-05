@@ -90,7 +90,6 @@ module SRAM_Controller
                     ready <= 1'b0;
                 count_en <= (counter != SRAM_WAIT_CYCLES);
                 SRAM_WE_N <= (counter == SRAM_WAIT_CYCLES);
-                // SRAM_DQ_temp <= writeData;
                 SRAM_DQ_temp <= (counter != SRAM_WAIT_CYCLES) ? writeData : 32'bz;
             end 
         endcase

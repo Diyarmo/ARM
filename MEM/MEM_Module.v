@@ -13,7 +13,7 @@ module MEM_Module (
     wire flush;
     assign flush = 1'b0;
 
-    MEM_Stage #(.USE_SRAM(1))mem_stage(
+    MEM_Stage #(.USE_SRAM(1), .USE_CACHE(1))mem_stage(
         .clk(clk),
         .MEM_CLK(MEM_CLK),
         .rst(rst),
