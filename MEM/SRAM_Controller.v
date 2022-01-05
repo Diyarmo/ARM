@@ -1,5 +1,5 @@
 module SRAM_Controller
-# (parameter SRAM_WAIT_CYCLES = 6)
+# (parameter SRAM_WAIT_CYCLES = 5)
 (
     input clk, 
     input rst,
